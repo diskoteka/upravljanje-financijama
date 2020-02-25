@@ -1,10 +1,11 @@
 import React from "react";
-import { Form, Input, Icon, Button } from "antd";
+import { Form, Input, Icon, Button, Select } from "antd";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as actions from "../store/actions/auth";
 
 const FormItem = Form.Item;
+const Option = Select.Option;
 
 class RegistrationForm extends React.Component {
   state = {
@@ -15,11 +16,14 @@ class RegistrationForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        let is_student = false;
+        if (values.userType === 'student') is_student = true;
         this.props.onAuth(
           values.userName,
           values.email,
           values.password,
-          values.confirm
+          values.confirm,
+          is_student
         );
         this.props.history.push("/");
       }
@@ -34,7 +38,7 @@ class RegistrationForm extends React.Component {
   compareToFirstPassword = (rule, value, callback) => {
     const form = this.props.form;
     if (value && value !== form.getFieldValue("password")) {
-      callback("Two passwords that you enter is inconsistent!");
+      callback("Šifre se ne podudaraju!");
     } else {
       callback();
     }
@@ -55,11 +59,11 @@ class RegistrationForm extends React.Component {
       <Form onSubmit={this.handleSubmit}>
         <FormItem>
           {getFieldDecorator("userName", {
-            rules: [{ required: true, message: "Please input your username!" }]
+            rules: [{ required: true, message: "Unesite korisničko ime!" }]
           })(
             <Input
               prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-              placeholder="Username"
+              placeholder="Korisničko ime"
             />
           )}
         </FormItem>
@@ -69,11 +73,11 @@ class RegistrationForm extends React.Component {
             rules: [
               {
                 type: "email",
-                message: "The input is not valid E-mail!"
+                message: "Unos nije ispravan e-mail!"
               },
               {
                 required: true,
-                message: "Please input your E-mail!"
+                message: "Unesite E-mail!"
               }
             ]
           })(
@@ -89,7 +93,7 @@ class RegistrationForm extends React.Component {
             rules: [
               {
                 required: true,
-                message: "Please input your password!"
+                message: "Unesite šifru!"
               },
               {
                 validator: this.validateToNextPassword
@@ -99,7 +103,7 @@ class RegistrationForm extends React.Component {
             <Input
               prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
               type="password"
-              placeholder="Password"
+              placeholder="Šifra"
             />
           )}
         </FormItem>
@@ -109,7 +113,7 @@ class RegistrationForm extends React.Component {
             rules: [
               {
                 required: true,
-                message: "Please confirm your password!"
+                message: "Potvrdite šifru!"
               },
               {
                 validator: this.compareToFirstPassword
@@ -119,9 +123,25 @@ class RegistrationForm extends React.Component {
             <Input
               prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
               type="password"
-              placeholder="Password"
+              placeholder="Šifra"
               onBlur={this.handleConfirmBlur}
             />
+          )}
+        </FormItem>
+
+        <FormItem>
+          {getFieldDecorator("userType", {
+            rules: [
+              {
+                required: true,
+                message: "Odaberite tip korisnika!"
+              },
+            ]
+          })(
+            <Select placeholder="Odaberite korisnika">
+              <Option value="student">Učenik</Option>
+              <Option value="teacher">Učitelj</Option>
+            </Select>
           )}
         </FormItem>
 
@@ -131,12 +151,12 @@ class RegistrationForm extends React.Component {
             htmlType="submit"
             style={{ marginRight: "10px" }}
           >
-            Signup
+            Registracija
           </Button>
-          Or
+          ili
           <NavLink style={{ marginRight: "10px" }} to="/login/">
             {" "}
-            login
+            prijava
           </NavLink>
         </FormItem>
       </Form>
@@ -155,8 +175,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (username, email, password1, password2) =>
-      dispatch(actions.authSignup(username, email, password1, password2))
+    onAuth: (username, email, password1, password2, is_student) =>
+      dispatch(actions.authSignup(username, email, password1, password2, is_student))
   };
 };
 
