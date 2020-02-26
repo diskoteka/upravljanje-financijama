@@ -11,7 +11,13 @@ class CustomLayout extends React.Component {
     return (
       <Layout className="layout">
         <Header>
-          <div className="logo" />
+          <div className="logo" style={{
+            width: "120px",
+            height: "31px",
+            margin: "16px 24px 16px 0",
+            background: "rgba(255, 255, 255, 0.2)",
+            float: "left"
+          }} />
           <Menu
             theme="dark"
             mode="horizontal"
@@ -30,14 +36,22 @@ class CustomLayout extends React.Component {
           </Menu>
         </Header>
         <Content style={{ padding: "0 50px" }}>
-          <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>
-              <Link to="/">Home</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to="/">List</Link>
-            </Breadcrumb.Item>
-          </Breadcrumb>
+          {this.props.isAuthenticated ? (
+            <Breadcrumb style={{ margin: "16px 0" }}>
+              <Breadcrumb.Item>
+                <Link to="/">Home</Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to={`/profile/${this.props.userId}`}>Profil</Link>
+              </Breadcrumb.Item>
+            </Breadcrumb>
+          ) : (
+              <Breadcrumb style={{ margin: "16px 0" }}>
+                <Breadcrumb.Item>
+                  <Link to="/">Home</Link>
+                </Breadcrumb.Item>
+              </Breadcrumb>
+            )}
           <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
             {this.props.children}
           </div>
@@ -50,6 +64,12 @@ class CustomLayout extends React.Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    userId: state.auth.userId
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     logout: () => dispatch(actions.logout())
@@ -58,7 +78,7 @@ const mapDispatchToProps = dispatch => {
 
 export default withRouter(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   )(CustomLayout)
 );
