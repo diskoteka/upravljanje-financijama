@@ -18,6 +18,9 @@ class CustomLayout extends React.Component {
             background: "rgba(255, 255, 255, 0.2)",
             float: "left"
           }} />
+          {/* <div className="logo">
+            <img style={{ margin: "16px 24px 16px 0", float: "left" }} alt="" src="#" />
+          </div> */}
           <Menu
             theme="dark"
             mode="horizontal"
@@ -39,7 +42,7 @@ class CustomLayout extends React.Component {
           {this.props.isAuthenticated ? (
             <Breadcrumb style={{ margin: "16px 0" }}>
               <Breadcrumb.Item>
-                <Link to="/">Home</Link>
+                <Link to="/">Početna</Link>
               </Breadcrumb.Item>
               <Breadcrumb.Item>
                 <Link to={`/profile/${this.props.userId}`}>Profil</Link>
@@ -48,16 +51,18 @@ class CustomLayout extends React.Component {
           ) : (
               <Breadcrumb style={{ margin: "16px 0" }}>
                 <Breadcrumb.Item>
-                  <Link to="/">Home</Link>
+                  <Link to="/">Početna</Link>
                 </Breadcrumb.Item>
               </Breadcrumb>
             )}
-          <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
+          <div style={{ background: "#fff", padding: 24, minHeight: 480 }}>
             {this.props.children}
           </div>
         </Content>
         <Footer style={{ textAlign: "center" }}>
-          Ant Design ©2016 Created by Ant UED
+          Izradu ove aplikacije sufinancirala je Europska unija iz Europskog socijalnog fonda
+          <br></br>
+          Sadržaj ove aplikacije isključiva je odgovornost Pomorske škole Split
         </Footer>
       </Layout>
     );

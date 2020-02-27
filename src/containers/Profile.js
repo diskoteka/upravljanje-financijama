@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 
 class Profile extends React.PureComponent {
     render() {
-        return <div>Hej, {this.props.username}!</div>;
+        return (
+            <div>Hej, {this.props.username}!</div>
+        );
     }
 }
 
