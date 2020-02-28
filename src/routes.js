@@ -6,6 +6,8 @@ import Login from "./containers/Login";
 import Signup from "./containers/Signup";
 import Profile from "./containers/Profile";
 import Home from "./containers/Home";
+import AssignmentList from "./containers/AssignmentList";
+import AssignmentDetail from "./containers/AssignmentDetail";
 
 const BaseRouter = () => (
   <Hoc>
@@ -13,6 +15,8 @@ const BaseRouter = () => (
     <Route exact path="/login/" component={Login} />
     <Route exact path="/signup/" component={Signup} />
     <Route exact path="/profile/:id/" component={Profile} />
+    <Route exact path="/assignments/" component={AssignmentList} />
+    <Route exact path="/assignments/:id" component={AssignmentDetail} />
   </Hoc>
 );
 

@@ -47,6 +47,9 @@ class CustomLayout extends React.Component {
               <Breadcrumb.Item>
                 <Link to={`/profile/${this.props.userId}`}>Profil</Link>
               </Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/assignments/">Zadatci</Link>
+              </Breadcrumb.Item>
             </Breadcrumb>
           ) : (
               <Breadcrumb style={{ margin: "16px 0" }}>
