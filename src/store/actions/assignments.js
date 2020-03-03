@@ -1,20 +1,21 @@
 import axios from "axios";
 import * as actionTypes from "./actionTypes";
 
-export const getASNTListStart = () => {
+// asnt list
+const getASNTListStart = () => {
     return {
         type: actionTypes.GET_ASSIGNMENTS_LIST_START
     };
 };
 
-export const getASNTListSuccess = assignments => {
+const getASNTListSuccess = assignments => {
     return {
         type: actionTypes.GET_ASSIGNMENTS_LIST_SUCCESS,
         assignments
     };
 };
 
-export const getASNTListFail = error => {
+const getASNTListFail = error => {
     return {
         type: actionTypes.GET_ASSIGNMENTS_LIST_FAIL,
         error: error
@@ -40,42 +41,43 @@ export const getASNTS = token => {
     };
 };
 
-
-export const getASNTDetailStart = () => {
+// asnt details
+const getASNTDetailStart = () => {
     return {
-        type: actionTypes.GET_ASSIGNMENTS_LIST_START
+        type: actionTypes.GET_ASSIGNMENT_DETAIL_START
     };
 };
 
-export const getASNTDetailSuccess = assignments => {
+const getASNTDetailSuccess = assignment => {
     return {
-        type: actionTypes.GET_ASSIGNMENTS_LIST_SUCCESS,
-        assignments
+        type: actionTypes.GET_ASSIGNMENT_DETAIL_SUCCESS,
+        assignment
     };
 };
 
-export const getASNTDetailFail = error => {
+const getASNTDetailFail = error => {
     return {
-        type: actionTypes.GET_ASSIGNMENTS_LIST_FAIL,
+        type: actionTypes.GET_ASSIGNMENT_DETAIL_FAIL,
         error: error
     };
 };
 
-export const getASNTSDetail = (token, id) => {
+export const getASNTDetail = (token, id) => {
     return dispatch => {
-        dispatch(getASNTListStart());
+        dispatch(getASNTDetailStart());
         axios.defaults.headers = {
             "Content-Type": "application/json",
             Authorization: `Token ${token}`
         };
         axios
-            .get("http://127.0.0.1:8000/assignments/")
+            .get(`http://127.0.0.1:8000/assignments/${id}/`)
             .then(res => {
-                const assignments = res.data;
-                dispatch(getASNTListSuccess(assignments));
+                const assignment = res.data;
+                console.log(assignment);
+                dispatch(getASNTDetailSuccess(assignment));
             })
             .catch(err => {
-                dispatch(getASNTListFail());
+                dispatch(getASNTDetailFail());
             });
     };
 };

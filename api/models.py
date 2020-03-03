@@ -33,7 +33,8 @@ class Question(models.Model):
     choices = models.ManyToManyField(Choice)
     answer = models.ForeignKey(
         Choice, on_delete=models.CASCADE, related_name='answer')
-    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE)
+    assignment = models.ForeignKey(
+        Assignment, on_delete=models.CASCADE, related_name='questions')
     order = models.SmallIntegerField()
 
     def __str__(self):
