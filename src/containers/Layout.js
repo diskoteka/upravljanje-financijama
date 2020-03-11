@@ -39,25 +39,26 @@ class CustomLayout extends React.Component {
           </Menu>
         </Header>
         <Content style={{ padding: "0 50px" }}>
-          {this.props.isAuthenticated ? (
-            <Breadcrumb style={{ margin: "16px 0" }}>
-              <Breadcrumb.Item>
-                <Link to="/">Početna</Link>
-              </Breadcrumb.Item>
+          <Breadcrumb style={{ margin: "16px 0" }}>
+            <Breadcrumb.Item>
+              <Link to="/">Početna</Link>
+            </Breadcrumb.Item>
+            {this.props.token !== null ? (
               <Breadcrumb.Item>
                 <Link to={`/profile/${this.props.userId}`}>Profil</Link>
               </Breadcrumb.Item>
+            ) : null}
+            {this.props.token !== null ? (
               <Breadcrumb.Item>
                 <Link to="/assignments/">Zadatci</Link>
               </Breadcrumb.Item>
-            </Breadcrumb>
-          ) : (
-              <Breadcrumb style={{ margin: "16px 0" }}>
-                <Breadcrumb.Item>
-                  <Link to="/">Početna</Link>
-                </Breadcrumb.Item>
-              </Breadcrumb>
-            )}
+            ) : null}
+            {this.props.token !== null && this.props.is_teacher ? (
+              <Breadcrumb.Item>
+                <Link to="/create/">Kreiraj</Link>
+              </Breadcrumb.Item>
+            ) : null}
+          </Breadcrumb>
           <div style={{ background: "#fff", padding: 24, minHeight: 480 }}>
             {this.props.children}
           </div>
@@ -74,7 +75,9 @@ class CustomLayout extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    userId: state.auth.userId
+    userId: state.auth.userId,
+    token: state.auth.token,
+    is_teacher: state.auth.is_teacher
   };
 };
 

@@ -14,7 +14,6 @@ const cardStyle = {
 
 
 class AssignmentDetail extends React.Component {
-
     state = {
         userAnswers: {}
     };

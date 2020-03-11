@@ -34,17 +34,17 @@ class Questions extends React.Component {
                     {current < questions.length - 1 && (
                         <Button type="primary" onClick={() => this.next()}>
                             Next
-            </Button>
+                        </Button>
                     )}
                     {current === questions.length - 1 && (
                         <Button type="primary" onClick={() => message.success('Processing complete!')}>
                             Done
-            </Button>
+                        </Button>
                     )}
                     {current > 0 && (
                         <Button style={{ marginLeft: 8 }} onClick={() => this.prev()}>
                             Previous
-            </Button>
+                        </Button>
                     )}
                 </div>
             </div>
