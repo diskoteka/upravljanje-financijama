@@ -8,6 +8,7 @@ const initialState = {
     loading: false
 };
 
+// list
 const getASNTListStart = (state, action) => {
     return updateObject(state, {
         error: null,
@@ -30,6 +31,7 @@ const getASNTListFail = (state, action) => {
     });
 };
 
+// detail
 const getASNTDetailStart = (state, action) => {
     return updateObject(state, {
         error: null,
@@ -52,6 +54,28 @@ const getASNTDetailFail = (state, action) => {
     });
 };
 
+// asnt
+const createASNTStart = (state, action) => {
+    return updateObject(state, {
+        error: null,
+        loading: true
+    });
+};
+
+const createASNTSuccess = (state, action) => {
+    return updateObject(state, {
+        error: null,
+        loading: false
+    });
+};
+
+const createASNTFail = (state, action) => {
+    return updateObject(state, {
+        error: action.error,
+        loading: false
+    });
+};
+
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.GET_ASSIGNMENTS_LIST_START:
@@ -66,6 +90,12 @@ const reducer = (state = initialState, action) => {
             return getASNTDetailSuccess(state, action);
         case actionTypes.GET_ASSIGNMENT_DETAIL_FAIL:
             return getASNTDetailFail(state, action);
+        case actionTypes.CREATE_ASSIGNMENT_START:
+            return createASNTStart(state, action);
+        case actionTypes.CREATE_ASSIGNMENT_SUCCESS:
+            return createASNTSuccess(state, action);
+        case actionTypes.CREATE_ASSIGNMENT_FAIL:
+            return createASNTFail(state, action);
         default:
             return state;
     }

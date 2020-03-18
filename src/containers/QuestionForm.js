@@ -29,31 +29,28 @@ class QuestionForm extends React.Component {
 
     render() {
         const { getFieldDecorator, getFieldValue } = this.props.form;
-
         getFieldDecorator('keys', { initialValue: [] });
         const keys = getFieldValue('keys');
         const formItems = keys.map((k, index) => (
             <Form.Item
                 label={index === 0 ? 'Choices' : ''}
-                required={false}
                 key={k}
             >
-                {getFieldDecorator(`names[${k}]`, {
+                {getFieldDecorator(`questions[${this.props.id}]choices[${k}]`, {
                     validateTrigger: ['onChange', 'onBlur'],
                     rules: [
                         {
                             required: true,
                             whitespace: true,
-                            message: "Please input passenger's name or delete this field.",
+                            message: "Please input a choice to the question",
                         },
                     ],
-                })(
-                    <Input placeholder="passenger name" style={{ width: '60%', marginRight: 8 }} />
-                )}
+                })(<Input placeholder="Answer choice" />)}
                 {keys.length > 1 ? (
                     <Icon
                         className="dynamic-delete-button"
                         type="minus-circle-o"
+                        disabled={keys.length === 1}
                         onClick={() => this.remove(k)}
                     />
                 ) : null}
@@ -61,6 +58,17 @@ class QuestionForm extends React.Component {
         ));
         return (
             <Hoc>
+                <Form.Item label="Question: ">
+                    {getFieldDecorator(`question[${this.props.id}]`, {
+                        validateTrigger: ['onChange', 'onBlur'],
+                        rules: [
+                            {
+                                required: true,
+                                message: "Please input a question",
+                            },
+                        ],
+                    })(<Input placeholder="Add a question" />)}
+                </Form.Item>
                 <Form.Item label="Answer: ">
                     {getFieldDecorator(`answers[${this.props.id}]`, {
                         validateTrigger: ['onChange', 'onBlur'],
@@ -70,9 +78,7 @@ class QuestionForm extends React.Component {
                                 message: "Please input an answer to this question.",
                             },
                         ],
-                    })(
-                        <Input placeholder="What is the answer?" />
-                    )}
+                    })(<Input placeholder="What is the answer?" />)}
                 </Form.Item>
                 {formItems}
                 < Form.Item >

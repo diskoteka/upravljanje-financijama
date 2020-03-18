@@ -1,7 +1,9 @@
 import React from 'react';
-import { Form, Input, Icon, Button } from 'antd';
-
+import { connect } from 'react-redux';
+import { Form, Input, Icon, Button, Divider } from 'antd';
 import QuestionForm from './QuestionForm';
+import Hoc from '../hoc/hoc';
+import { createASNT } from '../store/actions/assignments';
 
 
 class AssignmentCreate extends React.Component {
@@ -27,9 +29,21 @@ class AssignmentCreate extends React.Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                const { keys, names } = values;
                 console.log('Received values of form: ', values);
-                console.log('Merged values:', keys.map(key => names[key]));
+                const questions = [];
+                for (let i = 0; i < values.questions.length; i += 1) {
+                    questions.push({
+                        title: values.question[i],
+                        choices: values.questions[i].choices.filter(el => el !== null),
+                        answer: values.answers[i]
+                    });
+                }
+                const asnt = {
+                    teacher: this.props.username,
+                    title: values.title,
+                    questions
+                };
+                this.props.createASNT(this.props.token, asnt);
             }
         });
     };
@@ -37,16 +51,26 @@ class AssignmentCreate extends React.Component {
     render() {
         const { getFieldDecorator } = this.props.form;
         const questions = [];
-
         for (let i = 0; i < this.state.formCount; i += 1) {
             questions.push(
-                <QuestionForm id={i} key={i} {...this.props} />
+                <Hoc key={i}>
+                    {questions.length > 0 ? (
+                        <Icon
+                            className="dynamic-delete-button"
+                            type="minus-circle-o"
+                            disabled={questions.length === 0}
+                            onClick={() => this.remove()}
+                        />
+                    ) : null}
+                    <QuestionForm id={i} {...this.props} />
+                    <Divider />
+                </Hoc>
             );
         }
 
         return (
             <Form onSubmit={this.handleSubmit}>
-                <h1>Create an assignment</h1>
+                <h1>Kreiranje zadatka</h1>
                 <Form.Item label={"Title: "}>
                     {getFieldDecorator('title', {
                         validateTrigger: ['onChange', 'onBlur'],
@@ -76,4 +100,21 @@ class AssignmentCreate extends React.Component {
 
 const WrappedAssignmentCreate = Form.create({ name: 'dynamic_form_item' })(AssignmentCreate);
 
-export default WrappedAssignmentCreate;
+const mapStateToProps = state => {
+    return {
+        token: state.auth.token,
+        username: state.auth.username,
+        loading: state.assignments.loading
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        createASNT: (token, asnt) => dispatch(createASNT(token, asnt))
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(WrappedAssignmentCreate);
