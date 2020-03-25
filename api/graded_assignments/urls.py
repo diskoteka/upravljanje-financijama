@@ -1,8 +1,6 @@
-from rest_framework.routers import DefaultRouter
+from django.urls import path
+from api.views import GradedAssignmentListView
 
-# from .views import UserViewSet
-
-
-router = DefaultRouter()
-# router.register(r'', UserViewSet, base_name='users')
-urlpatterns = router.urls
+urlpatterns = [
+    path('', GradedAssignmentListView.as_view())
+]

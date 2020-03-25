@@ -38,7 +38,7 @@ class Questions extends React.Component {
                     )}
                     {current === questions.length - 1 && (
                         <Button type="primary" onClick={() => message.success('Processing complete!')}>
-                            Done
+                            Submit
                         </Button>
                     )}
                     {current > 0 && (

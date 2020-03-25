@@ -36,7 +36,7 @@ export const getASNTS = token => {
                 dispatch(getASNTListSuccess(assignments));
             })
             .catch(err => {
-                dispatch(getASNTListFail());
+                dispatch(getASNTListFail(err));
             });
     };
 };

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from users.models import User
-from .models import Assignment, Question, Choice
+from .models import Assignment, Question, Choice, GradedAssignment
 
 
 class StringSerializer(serializers.StringRelatedField):
@@ -57,3 +57,11 @@ class AssignmentSerializer(serializers.ModelSerializer):
             newQ.save()
             order += 1
         return assignment
+
+
+class GradedAssignmentSerializer(serializers.ModelSerializer):
+    student = StringSerializer(many=False)
+
+    class Meta:
+        model = GradedAssignment
+        fields = ('__all__')
