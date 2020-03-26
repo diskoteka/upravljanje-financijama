@@ -40,3 +40,23 @@ export const getGradedASNTS = (username, token) => {
             });
     };
 };
+
+// asnt create
+export const createGradedASNT = (token, asnt) => {
+    return dispatch => {
+        // dispatch(createASNTStart());
+        axios.defaults.headers = {
+            "Content-Type": "application/json",
+            Authorization: `Token ${token}`
+        };
+        axios
+            .post(`http://127.0.0.1:8000/graded-assignments/create/`, asnt)
+            .then(res => {
+                console.log("success");
+                // dispatch(createASNTSuccess());
+            })
+            .catch(err => {
+                // dispatch(createASNTFail());
+            });
+    };
+};

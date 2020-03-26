@@ -1,5 +1,5 @@
 import React from 'react';
-import { Steps, Button, message } from 'antd';
+import { Steps, Button } from 'antd';
 
 const { Step } = Steps;
 
@@ -37,7 +37,7 @@ class Questions extends React.Component {
                         </Button>
                     )}
                     {current === questions.length - 1 && (
-                        <Button type="primary" onClick={() => message.success('Processing complete!')}>
+                        <Button type="primary" onClick={() => this.props.submit()}>
                             Submit
                         </Button>
                     )}
